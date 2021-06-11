@@ -1,3 +1,8 @@
+# Filene under er hentet fra:
+# - https://www.toptal.com/developers/gitignore/api/r
+# - https://github.com/github/gitignore/blob/master/R.gitignore
+# - + filer jeg typisk har måtte fjerne
+
 # History files
 .Rhistory
 .Rapp.history
@@ -37,3 +42,28 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# pkgdown site
+docs/
+
+# translation temp files
+po/*~
+
+# R package: bookdown caching files
+/*_files/
+
+# Html-versjon av readme
+README.html
+
+# Dersom man lager en Private/-folder så skal den ikke følges av Git som default
+Private/
+
+# Lintr settings
+.lintr
+
+# Fil fra MacOS-filsystem
+.DS_store
+
+# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
+rsconnect/
+
