@@ -1,0 +1,281 @@
+---
+output: 
+  github_document
+---
+
+<!-- CONTRIBUTING.md is generated from CONTRIBUTING.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+```
+
+# For dem som skal arbeide med koden
+
+<!-- badges: start -->
+[![Last-changedate](https://img.shields.io/badge/Sist%20oppdatert-`r format(Sys.Date(), "%d--%m--%Y")`-yellowgreen.svg)](/commits/master)
+<!-- badges: end -->
+
+
+## Introduksjon
+
+Dette dokumentet er ment for dem som skal arbeide med koden i dette repoet,
+enten det gjelder å endre/fikse/teste noe eller man skal gjennomføre en større
+videreutvikling.
+
+Dokumentet skal hjelpe med to ting:
+
+1) Det skal være enklest mulig å komme i gang
+2) Det skal være enkelt å følge god praksis i arbeidet, slik at koden forblir så
+enkel som mulig å vedlike og at man unngår 
+[_software entropy_](https://en.wikipedia.org/wiki/Software_entropy).
+
+
+Dokumentet inneholder det følgende: 
+
+- Kom i gang
+    - Last ned kode
+    - Pakkekontroll
+    - Viktig informasjon
+    - Filstruktur
+- _Best practice_ for å gjøre endringer i koden
+- Gjør repoet om til en R-pakke
+
+
+## Kom i gang
+
+### Last ned kode
+
+Dette repoet kan lastes ned ved å:
+
+1) åpne RStudio
+2) trykke på: `File --> New Project --> Version Control --> Git`. 
+3) legge inn `<URL her>` under Repository URL
+4) trykke på Create Project
+
+Alternativt kan man laste ned koden med følgende git-kommando: 
+
+```bash
+git clone <URL>
+```
+
+
+
+### Pakkekontroll
+
+Dette prosjektet benytter `renv` for pakkekontroll. Nye brukere bør starte med å
+skrive følgende kode i konsollen:
+
+```r
+if (!require(renv)) install.packages("renv")
+
+renv::restore()
+```
+
+Dette vil laste ned samme pakker (og versjoner) som ble brukt under utvikling av
+koden.
+
+Dersom man oppdaterer eller laster ned nye pakker bør man:
+
+1) Teste at koden fortsatt fungerer som den skal
+2) Skrive `renv::snapshot()` i konsollen og pushe oppdatert `renv.lock`-fil til 
+GitHub.
+
+Se ellers 
+[renv-dokumentasjonen](https://rstudio.github.io/renv/articles/renv.html) for
+mer info om `renv`.
+
+
+### Viktig informasjon
+
+Det er et par ting som er greit å vite om dette prosjekt. 
+
+
+> Teksten under er eksempler, og må gjerne tilpasses:
+
+1) Dersom man restarter R-sesjonen (f.eks. med hurtightasten CTRL + SHIFT + F10)
+så slettes hele environment'et. Dette er ansett som _best practice_ under
+utvikling, fordi det sørger for at man ikke belager seg på objekter man har
+generert tidligere i videre utvikling. Man kan med fordel restarte R ofte, men
+husk at koden man jobber med da ofte må kjøres på nytt.
+
+2) For å kjøre testene i dette repoet sourcer man filen `tests/run_testdir.R`.
+Dersom man legger til flere funksjoner bør man også lage tester til disse
+funksjonene (ser mer under Best practice-seksjonen). Før man commit'er og pusher
+kode bør alle testene fungere.
+
+
+### Filstruktur
+
+Dette prosjektet har følgende filstruktur:
+
+```{r, include = FALSE}
+
+# Følgende filer/mapper skal ignorerers i filstrukturen
+ignore_paths <- c(
+  "renv/",
+  ".git",
+  ".Rproj",
+  "figs",
+  ".Rhistory",
+  ".Rprofile",
+  ".html"
+)
+
+ignore_regex <- paste(ignore_paths, collapse = "|")
+
+```
+
+
+```{r, results = 'asis', echo = FALSE}
+
+cat("```bash")
+cat("\n")
+fs::dir_tree(
+  recurse = 3, 
+  all = TRUE, 
+  regexp = ignore_regex, 
+  invert = TRUE
+)
+cat("\n")
+cat("```")
+
+```
+
+> Det er ofte lurt å beskrive enkelte filer/mapper ekstra godt her
+
+
+## _Best practice_ for å gjøre endringer i koden
+
+Vennligst følg _best practice_, som beskrevet under, når man gjøre endringer i
+koden.
+
+### Skrive funksjoner
+
+Alle funksjoner skal ligge i R-mappen. Man kan samle funksjoner som hører
+naturlig sammen i samme .R-fil.
+
+Funksjonene bør være relativt små og enkle, slik at de lett lar seg teste.
+Dersom man ender opp med veldig lange funksjoner bør man vurdere om man kan dele
+det opp i flere mindre funksjoner.
+
+For å få robust kode som er lett å vedlikeholde, og for at man skal kunne gjøre
+dette om til en R-pakke på sikt, må funksjonene man skriver dokumenteres og
+testes. Mer om dette under.
+
+
+### Dokumentere funksjoner
+
+For å dokumentere funksjoner bruker vi `roxygen2`:
+
+- Skriv ferdig funksjonen din
+- Stå i funksjonen, og trykk `CTRL + SHIFT + ALT + R`
+- Fyll inn roxygen-strukturen som lages over funksjonen
+
+Grunnen til at man gjør dette er fordi:
+
+1) Det er en standardisert måte å dokumentere funksjoner på
+2) Hvis vi gjør dette om til en R-pakke vil roxygen-kommentarene automatisk bli
+omgjort til _help_-filer (dem man får opp når man bruker `?`, f.eks.
+`?dplyr::filter`).
+
+Tenk på sluttbrukeren når man dokumenterer funksjonen, og hva de vil trenge å
+vite og kanskje vil lure på. Som et minimum bør man beskrive:
+
+- Hva bruker man funksjonen til?
+- Hvordan ser input ut? Klasse, lengde/dimensjoner, andre krav osv.
+- Hvordan ser output ut? Klasse, lengde/dimensjoner osv.
+
+I tillegg bør man legge ved et eksempel som enkelt lar seg reprodusere. 
+
+Les mer om `roxygen2` og objektdokumentasjon i R 
+[her](https://r-pkgs.org/man.html).
+
+
+### Lage tester
+
+Tester bør utvikles samtidig som man utvikler funksjoner. Man bør teste at man
+får forventet output (riktig klasse, dimensjoner, type objekt, andre krav) av
+noen vanlige caser + noen _edge cases_. I tillegg kan det være fornuftig å teste
+at funksjonen feiler når den skal.
+
+Alle tester skal legges i tests/testthat-mappen, og skal ha samme navn som
+.R-filen funksjonen ligger i, med "test-" framfor. For eksempel skal testene til
+"./R/foo.R" ligge i "./tests/testthat/test-foo.R".
+
+Les mer om _best practice_ for testing i R [her](https://r-pkgs.org/tests.html).
+
+### Nye script
+
+R-script som skal benytte funksjonene legges i en egne mapper som igjen ligger i
+_root directory_. Se for eksempel mappen `XYZ`. Disse filene kan senere legges i 
+en liste som skal ignoreres dersom vi lager funksjonene om til en R-pakke.
+
+
+### _Commits_
+
+For at det skal være enkelt å følge historikken til dette prosjektet bør man
+følge _best practice_ for _commits_ og _commit_-meldinger.
+
+Det viktigste er at man bør _Commit_'e ofte og med små _commits_. Én _commit_
+bør helst kun inneholde én type/kategori endring (kan påvirke flere filer). Hvis
+man ikke kan oppsummere hva man har gjort i _commit_'en uten å bruke "og" burde
+den gjerne vært delt i flere _commits_.
+
+_Best practice_ for _commit_-meldinger kan oppsummeres som: 
+
+- Lag en emnelinje på under 50 tegn, og skill den fra resten av commit-meldingen
+med en tom linje dersom man trenger mer informasjon i meldingen.
+- Begynn emnelinjen med stor forbokstav, og ikke bruk punktum etter emnelinjen.
+- Skriv emnelinjen på imperativ-form. Dette kalles ofte "kommandoform", som for
+eksempel "gjør x", "legg til y" eller "fiks z".
+- Bruk emnelinjen til å forklare hva som er gjort, og resten av
+_commit_-meldingen til å forklare hvorfor.
+
+Dette gjør det enkelt å følge utviklingen i prosjektet. Les mer om _best
+practice_ [her](https://chris.beams.io/posts/git-commit/).
+
+
+
+### _Branches_ og _Pull requests_
+
+All utvikling bør skje i _develop_-branchen. For å legge til ny funksjonalitet
+brancher man ut derfra, og lager en PR inn igjen. Kode i _develop_ skal kjøre
+uten problemer.
+
+Når endringene man har er klar for produksjon kan det opprettes en PR til
+_master_-branchen. Da vil man få opp en sjekkliste som må være oppfylt før man
+kan merge PRen. I tilleg bør koden være gjennomtestet før den pushes til master.
+
+
+
+
+## Gjør repoet om til en R-pakke
+
+> Denne kan ev. skrives om til hvordan man bygger pakken dersom det alt er en R-pakke. 
+
+Siden dette repet allerede har lik struktur som en R-pakke er det ganske enkelt
+å gjøre den om til en R-pakke.
+
+Man kan lese mer om å lage R-pakker [her](https://r-pkgs.org/index.html) og mer
+om pakken {usethis} - som vi vil bruke til å lage pakken -
+[her](https://usethis.r-lib.org/index.html).
+
+Under er de generelle stegene for å gjøre dette repoet om til en pakke:
+
+1) Last ned {usethis} med `install.packages("usethis")`
+2) Initier repoet som en pakke med `usethis::create_package(path = ".")`
+3) Svar på spørsmålene til {usethis}, generelt må man si:
+- At det er OK at det opprettes en pakke / et prosjekt på "./"
+- At det er OK at .Rproj-filen overskrives
+
+Nå vil {usethis} generere alle filene man trenger for at repoet skal bli en
+pakke. Når dette er klart kan man bygge pakken ved å trykke på "Build"-fanen
+(oppe med Git-fanen), og velge "Install and Restart".
+
+Man må muligens justere noen av filene som ligger i .Buildignore eller lignende.
+
+
