@@ -1,0 +1,77 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+versjon <- 0.9 # Eksempel
+versjon_farge <- ifelse(versjon > 1, "blue", "orange")
+livssyklus <- "Beta"
+i_prod_hos <- c("") # Eksempel: c("Avdeling1", "Avdeling2")
+ansvarlig_navn <- "Navn"
+ansvarlig_mail <- "Mail"
+```
+
+# Tittel
+
+
+<!-- badges: start -->
+[![lifecycle](https://img.shields.io/badge/Livssyklus-`r livssyklus`-`r versjon_farge`.svg)](/commits/master)
+[![version](https://img.shields.io/badge/Versjon-`r versjon`-`r versjon_farge`.svg?style=flat-square)](commits/master)
+[![produksjon](https://img.shields.io/badge/I%20produksjon%20hos-`r paste(i_prod_hos, collapse = "_|_")`-blue.svg)](/commits/master)
+[![Last-changedate](https://img.shields.io/badge/Sist%20oppdatert-`r format(Sys.Date(), "%d--%m--%Y")`-yellowgreen.svg)](/commits/master)
+[![responsible](https://img.shields.io/badge/Hovedansvarlig-`r ansvarlig_navn`-purple.svg)](mailto:`r ansvarlig_mail`)
+<!-- badges: end -->
+
+
+> Forklar hva prosjektet går ut på
+
+
+Dersom du skal gjøre endringer i koden bør du lese 
+[CONTRIBUTING-filen](CONTRIBUTING.md).
+
+Under finner du mer informasjon om:
+
+- [Undertittel 1](#tag1)
+- [Undertittel 2](#tag2)
+- [Undertittel 3](#tag3)
+
+
+For mer informasjon om ABC, se XYZ: 
+
+- [XYZ](link1)
+- [XYZ](link2)
+
+
+
+# Undertittel 1 <a name="tag1"></a>
+
+# Undertittel " <a name="tag2"></a>
+
+# Undertittel 3 <a name="tag3"></a>
+
+
+---
+
+# Tips: Alt under her fjernes
+
+Forslag til undertitler: 
+
+- Laste ned koden
+- Hvordan bruke systemet / koden
+- Utviklingsplan og/eller endringslogg?
+
+Misc:
+
+- Figurer bør legges i mappen man/figures/
+
+
+
+
+
