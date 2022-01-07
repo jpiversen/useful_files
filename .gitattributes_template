@@ -1,0 +1,62 @@
+# A .gitattributes for R repos
+#
+# This file is based on: 
+# - Tips from the book Pro Git
+# - Tips from the git documentation
+# - .gitattributes from repositories from organisations such as:
+#   - tidyverse
+#   - r-lib
+#   - rstudio
+#   - ModelOriented
+
+
+# LF normalization
+# ==============================================================================
+# Auto detect text files and perform LF normalization. Git will convert text 
+# files to OS's line ending on checkout and back to LF on commit automatically.
+
+* text=auto
+
+
+# Union merging
+# ==============================================================================
+# Using union merge ensures that these files don't lead to merge conflicts, but 
+# instead are merged together keeping changes from both versions of the file. 
+# However, do use with care as this setting can lead to duplicate entries.
+
+/NEWS          merge=union
+/.Rbuildignore merge=union
+/NAMESPACE     merge=union
+
+
+# Source files
+# ==============================================================================
+
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.pdf    binary
+*.Rdata  binary
+*.RData  binary
+*.rda    binary
+*.rdb    binary
+*.rds    binary
+*.Rdx    binary
+*.Rd     text
+*.[Rr]md text
+*.[Rr]   text
+*.Rproj  text
+
+
+# Linguist
+# ==============================================================================
+# For more information, see: 
+# https://github.com/github/linguist/blob/master/docs/overrides.md#summary
+
+*.[Rr]md  linguist-detectable
+man/*     linguist-documentation
+*.html    linguist-documentation
+*.md      linguist-documentation
+docs/*    linguist-documentation
+pkgdown/* linguist-documentation
+
