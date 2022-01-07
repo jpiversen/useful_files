@@ -1,7 +1,11 @@
-# Filene under er hentet fra:
+# A .gitignore for R repos
+#
+# This file is based on: 
 # - https://www.toptal.com/developers/gitignore/api/r
 # - https://github.com/github/gitignore/blob/master/R.gitignore
-# - + filer jeg typisk har måtte fjerne
+# - files I typically add to my .gitignore
+
+# Default files -----------------------------------------------------------
 
 # History files
 .Rhistory
@@ -52,26 +56,21 @@ po/*~
 # R package: bookdown caching files
 /*_files/
 
-# Html-versjon av readme
+# Html version of the RADME
 README.html
 
-# Dersom man lager en Private/-folder så skal den ikke følges av Git som default
-Private/
+# If you add files to a Private/ folder, it should not be added to Git by default
+[Pp]rivate/
 
 # Lintr settings
 .lintr
 
-# Fil fra MacOS-filsystem
+# File from MacOS file system
 .DS_store
 
-# Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
+# Shiny tokens, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
 
+# For this project only ---------------------------------------------------
 
-# Kun for dette prosjektet ------------------------------------------------
-
-# Legg til egne filer under her
-
-
-
-
+# Add your own ignores under here
